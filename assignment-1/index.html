@@ -7,21 +7,24 @@
     <style>
       .message { font-size: 1.3em; font-weight: bold; }
     </style>
+    <script src="angular.js"></script>
+    <script src="app.js"></script>
   </head>
 <body>
    <div class="container" ng-controller="LunchCheckController">
      <h1>Lunch Checker</h1>
 
          <div class="form-group">
-             <input id="lunch-menu" type="text"
+             <input id="lunch-menu" type="text" ng-model="foodList"
              placeholder="list comma separated dishes you usually have for lunch"
              class="form-control">
          </div>
          <div class="form-group">
-             <button class="btn btn-default">Check If Too Much</button>
+             <button class="btn btn-default" ng-click="checkFood()">Check If Too Much</button>
          </div>
-         <div class="form-group message">
+         <div class="form-group message" ng-model="message">
            <!-- Your message can go here. -->
+           {{message}}
          </div>
    </div>
 
