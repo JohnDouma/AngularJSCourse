@@ -24,6 +24,10 @@
     ctrl.doSearch = function () {
       MenuSearchService.getMenuItems(ctrl.searchStr, ctrl);
     };
+
+    ctrl.onRemove = function(index) {
+        ctrl.found.splice(index, 1);
+    }
   }
 
   /**
@@ -77,6 +81,10 @@
   function FoundItems() {
     let tag = {
       templateUrl: "foundItems.html",
+      scope: {
+        items: "<found",
+        onRemove: "&"
+      }
     };
 
     return tag;

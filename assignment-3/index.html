@@ -1,24 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" ng-app="NarrowItDownApp">
   <head>
     <title>Narrow Down Your Menu Choice</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="styles/bootstrap.min.css">
-    <link rel="stylesheet" href="styles/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="styles/bootstrap.min.css" />
+    <link rel="stylesheet" href="styles/styles.css" />
     <script src="angular.js" defer></script>
     <script src="app.js" defer></script>
   </head>
-<body ng-controller="NarrowItDownController as ctrl">
-  <div class="container" >
-    <h1>Narrow Down Your Chinese Menu Choice</h1>
+  <body ng-controller="NarrowItDownController as ctrl">
+    <div class="container">
+      <h1>Narrow Down Your Chinese Menu Choice</h1>
 
-    <div class="form-group">
-      <input type="text" placeholder="search term" class="form-control" ng-model="ctrl.searchStr">
+      <div class="form-group">
+        <input
+          type="text"
+          placeholder="search term"
+          class="form-control"
+          ng-model="ctrl.searchStr"
+        />
+      </div>
+      <div class="form-group narrow-button">
+        <button class="btn btn-primary" ng-click="ctrl.doSearch();">
+          Narrow It Down For Me!
+        </button>
+      </div>
     </div>
-    <div class="form-group narrow-button">
-      <button class="btn btn-primary" ng-click="ctrl.doSearch();" >Narrow It Down For Me!</button>
-    </div>
-  </div>
-  <found-items items="ctrl.found"></found-items>
-</body>
+    <found-items found="ctrl.found" on-remove="ctrl.onRemove(index)"></found-items>
+  </body>
 </html>
