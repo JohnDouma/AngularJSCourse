@@ -77,9 +77,6 @@
   function FoundItems() {
     let tag = {
       templateUrl: "foundItems.html",
-      scope: {
-        items: "<found",
-      },
     };
 
     return tag;
