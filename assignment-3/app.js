@@ -11,7 +11,20 @@
       "https://coursera-jhu-default-rtdb.firebaseio.com/menu_items.json"
     );
 
-  
+  /**
+   * This is our main controller. It contains an entry field for search terms,
+   * a button which triggers the search and a list of filtered search items.
+   */
+  NarrowItDownController.$inject = ["MenuSearchService"];
+  function NarrowItDownController(MenuSearchService) {
+    let ctrl = this;
+    ctrl.found = [];
+    ctrl.searchStr = "";
+
+    ctrl.doSearch = function () {
+      MenuSearchService.getMenuItems(ctrl.searchStr, ctrl);
+    };
+  }
 
   /**
    * Encapsulates the code that fetches and filters the menu data
@@ -22,43 +35,44 @@
    */
   MenuSearchService.$inject = ["$http", "menuUrl"];
   function MenuSearchService($http, menuUrl) {
-    this.getMenuItems = function () {
-      let response = $http({
+    let service = this;
+    this.lowercase = function (str) {
+      let retstr = "";
+      for (let i = 0; i < str.length; i++) {
+        let code = str.charAt(i).codePointAt(0);
+        if (code < 97) {
+          code += 32;
+        }
+        retstr += String.fromCharCode(code);
+      }
+
+      return retstr;
+    };
+
+    this.getMenuItems = function (searchStr, controller) {
+      let lowSearch = this.lowercase(searchStr);
+      $http({
         method: "GET",
         url: menuUrl,
-      });
-
-      return response;
-      
-    };
-
-    this.filterItems = function(searchTerm) {
-
-    };
-  }
-
-  NarrowItDownController.$inject = ["MenuSearchService"];
-  function NarrowItDownController(MenuSearchService) {
-    let myThis = this;
-    myThis.found = [];
-    let response = MenuSearchService.getMenuItems();
-
-    response.then(function (res) {
+      }).then(function (res) {
         const retlist = [];
         for (let obj in res.data) {
           let items = res.data[obj].menu_items;
           for (let i = 0; i < items.length; i++) {
-            retlist.push(items[i]);
+            let lowerName = service.lowercase(items[i].name);
+            if (lowerName.includes(lowSearch)) {
+              retlist.push(items[i]);
+            }
           }
         }
-        myThis.found = retlist;
+        controller.found = retlist;
       });
+    };
   }
-
   /**
    * Creates the <found-items> tag
    *
-   * @returns items, a directive definition object
+   * @returns tag, a directive definition object
    */
   function FoundItems() {
     let tag = {

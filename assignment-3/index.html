@@ -13,16 +13,16 @@
     <h1>Narrow Down Your Chinese Menu Choice</h1>
 
     <div class="form-group">
-      <input type="text" placeholder="search term" class="form-control">
+      <input type="text" placeholder="search term" class="form-control" ng-model="ctrl.searchStr">
     </div>
     <div class="form-group narrow-button">
-      <button class="btn btn-primary">Narrow It Down For Me!</button>
+      <button class="btn btn-primary" ng-click="ctrl.doSearch();" >Narrow It Down For Me!</button>
     </div>
     <br>
     
   </div>
   <div>
-    <ul ng-repeat="item in ctrl.found track by $index">
+    <ul ng-repeat="item in ctrl.found">
        <li>{{item.short_name}}, {{item.name}}, {{item.description}}</li>
     </ul>
   </div>
